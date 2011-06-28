@@ -2,7 +2,6 @@ from os import path
 
 from django.conf import settings
 from django.template import TemplateDoesNotExist, Context
-from django.template.loader import BaseLoader
 from django.template.context import BaseContext
 from django.core.urlresolvers import reverse
 from django.template.loaders import app_directories, filesystem
@@ -11,7 +10,8 @@ from mako.template import Template
 from mako.lookup import TemplateCollection
 
 class DjangoMakoTemplateLookup(TemplateCollection):
-    """Mako template lookup."""
+    """Mako template lookup that emulates the filesystem django template loader.
+    """
     def __init__(self, extra_folders=()):
         self.extra_folders = tuple(extra_folders)
     
@@ -24,13 +24,14 @@ class DjangoMakoTemplateLookup(TemplateCollection):
             raise TemplateDoesNotExist(uri)
 
 class MakoTemplate(object):
+    """Represents a Mako template to the django template system.
+    """
     def __init__(self, source, template_dirs):
         extra_dirs = template_dirs or ()
         lookup = DjangoMakoTemplateLookup(extra_dirs)
         self.template = Template(text=source, lookup=lookup)
     
     def render(self, context):
-        print "Rendering"
         mako_context = self.context_to_dict(context)
         return self.template.render(**mako_context)
 
