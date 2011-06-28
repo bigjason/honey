@@ -48,9 +48,9 @@ class MakoTemplate(object):
 class MakoFileSystemLoader(filesystem.Loader):
     def load_template(self, template_name, template_dirs=None):
         source, origin = self.load_template_source(template_name, template_dirs)
-        return MakoTemplate(source, template_dirs), origin
+        return (MakoTemplate(source, template_dirs), origin)
 
 class MakoAppDirLoader(app_directories.Loader):
     def load_template(self, template_name, template_dirs=None):
         source, origin = self.load_template_source(template_name, template_dirs)
-        return MakoTemplate(source, template_dirs), origin
+        return (MakoTemplate(source, template_dirs), origin)
