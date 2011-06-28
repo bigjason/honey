@@ -1,61 +1,55 @@
 from os import path
-from xml.sax.saxutils import escape, quoteattr
 
 from django.conf import settings
-from django.http import HttpResponse
 from django.template import TemplateDoesNotExist, Context
+from django.template.loader import BaseLoader
 from django.template.context import BaseContext
 from django.core.urlresolvers import reverse
+from django.template.loaders import app_directories, filesystem
 
 from mako.template import Template
 from mako.lookup import TemplateCollection
 
-class DjangoTemplateLookup(TemplateCollection):
+class DjangoMakoTemplateLookup(TemplateCollection):
+    """Mako template lookup."""
+    def __init__(self, extra_folders=()):
+        self.extra_folders = tuple(extra_folders)
+    
     def get_template(self, uri, relativeto=None):
-        for folder in settings.TEMPLATE_DIRS:
+        for folder in tuple(settings.TEMPLATE_DIRS) + self.extra_folders:
             file_name = path.join(folder, uri)
             if path.exists(file_name):
                 return Template(filename=file_name, lookup=self)
         else:
-            raise TemplateDoesNotExist()
-lookup = DjangoTemplateLookup()
+            raise TemplateDoesNotExist(uri)
 
-def context_to_dict(dictionary):
-    result = {}
-    if isinstance(dictionary, BaseContext):
-        for d in dictionary:
-            result.update(d)
-    elif isinstance(dictionary, dict):
-        result.update(dictionary)
-    return result
+class MakoTemplate(object):
+    def __init__(self, source, template_dirs):
+        extra_dirs = template_dirs or ()
+        lookup = DjangoMakoTemplateLookup(extra_dirs)
+        self.template = Template(text=source, lookup=lookup)
+    
+    def render(self, context):
+        print "Rendering"
+        mako_context = self.context_to_dict(context)
+        return self.template.render(**mako_context)
 
-def render_to_string(template_name, dictionary=None, context_instance=None):
-    dictionary = dictionary if dictionary != None else {}
-    if context_instance is None:
-        context_instance = Context(dictionary)
-    else:
-        context_instance.update(dictionary)
+    @staticmethod
+    def context_to_dict(context):
+        result = {}
+        if isinstance(context, BaseContext):
+            for d in context:
+                result.update(d)
+        elif isinstance(context, dict):
+            result.update(context)
+        return result
 
-    mako_context = context_to_dict(dictionary)
-    #for ctx_dict in context_instance:
-    #    mako_context.update(ctx_dict)
+class MakoFileSystemLoader(filesystem.Loader):
+    def load_template(self, template_name, template_dirs=None):
+        source, origin = self.load_template_source(template_name, template_dirs)
+        return MakoTemplate(source, template_dirs), origin
 
-    mako_context['url'] = mako_reverse
-    mako_context['link'] = link
-
-    template = lookup.get_template(template_name)
-
-    return template.render(**mako_context)
-
-def render_to_response(template_name, dictionary=None, context_instance=None, mimetype='text/html'):
-    return HttpResponse(render_to_string(template_name=template_name, 
-                                         dictionary=dictionary, 
-                                         context_instance=context_instance),
-                        mimetype=mimetype)
-
-def mako_reverse(name, *args, **kwargs):
-    return reverse(name, args=args, kwargs=kwargs)
-
-def link(name, label, *args, **kwargs):
-    attrs = ""
-    return '<a href="{}"/>{}</a>'.format(mako_reverse(name, *args), label)
+class MakoAppDirLoader(app_directories.Loader):
+    def load_template(self, template_name, template_dirs=None):
+        source, origin = self.load_template_source(template_name, template_dirs)
+        return MakoTemplate(source, template_dirs), origin
