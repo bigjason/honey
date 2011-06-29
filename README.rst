@@ -44,5 +44,5 @@ Change Log
 **v0.0.1**
     * Full drop in replacement of django templates using custom template loaders.
     * Mako ``Lookup`` classes to support inheritence and other template loading 
-      from inside template rendering.
+      from inside mako template rendering.
     * Basic tests for the template loaders.
