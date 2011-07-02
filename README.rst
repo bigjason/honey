@@ -3,7 +3,7 @@ Django Honey
 ============
 
 A drop in replacement for `django templates <https://docs.djangoproject.com/en/1.3/#the-template-layer>`_ 
-using `jinka2 <http://jinja.pocoo.org/>`_ or `mako <http://www.makotemplates.org/>`_.
+using `jinja2 <http://jinja.pocoo.org/>`_ or `mako <http://www.makotemplates.org/>`_.
 
 *Honey is under active development to add more features.  In its current state
 it is completely usable and fairly stable as it relies heavily on the tested, tried
@@ -16,9 +16,10 @@ Installation
 ``setup.py install``.  If this doesn't make sense to you then maybe wait until
 an official release is completed.
 
-Add to django settings
+Mako
 ----------------------
-You must add the loaders to your ``settings.py``::
+Be sure that you have installed the mako package. You must add the loaders to 
+your ``settings.py``::
 
     TEMPLATE_LOADERS = (
         'honey.MakoFileSystemLoader',
@@ -29,7 +30,8 @@ If you are still using the django templates you can leave those in the ``TEMPLAT
 setting, just keep in mind that the loaders are tried in order so name your 
 templates wisely.
 
-With the loaders in place you can use `mako`_ templates like usual.
+With the loaders in place you can use `mako`_ templates like you would django
+templates.
 
 Plans
 =====
