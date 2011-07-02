@@ -3,7 +3,7 @@ Django Honey
 ============
 
 A drop in replacement for `django templates <https://docs.djangoproject.com/en/1.3/#the-template-layer>`_ 
-using `mako <http://www.makotemplates.org/>`_.
+using `jinka2 <http://jinja.pocoo.org/>`_ or `mako <http://www.makotemplates.org/>`_.
 
 *Honey is under active development to add more features.  In its current state
 it is completely usable and fairly stable as it relies heavily on the tested, tried
@@ -21,8 +21,8 @@ Add to django settings
 You must add the loaders to your ``settings.py``::
 
     TEMPLATE_LOADERS = (
-        'honey.template.MakoFileSystemLoader',
-        'honey.template.MakoAppDirLoader'
+        'honey.MakoFileSystemLoader',
+        'honey.MakoAppDirLoader'
     )
 
 If you are still using the django templates you can leave those in the ``TEMPLATE_LOADERS``
@@ -35,14 +35,15 @@ Plans
 =====
 * Integration with django templating system. (**Done**)
 * Template paths that work like the django template loader. (**Done**)
-* Per app and global helpers using mako `defs <http://www.makotemplates.org/docs/defs.html>`_ and python modules.
+* Common helpers (urls, humanize, loremipsum etc) available in a context manager.
+* Html helpers (links, forms etc) available in a context manager.
 * Integration with django caching.
-* Common helpers (urls, links, pagination etc).
 
 Change Log
 ==========
 **v0.0.1**
-    * Full drop in replacement of django templates using custom template loaders.
+    * Full drop in replacement of django templates using custom template loaders
+      for mako.
     * Mako ``Lookup`` classes to support inheritence and other template loading 
       from inside template rendering.
     * Basic tests for the template loaders.
