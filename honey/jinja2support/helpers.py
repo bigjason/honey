@@ -1,0 +1,9 @@
+from django.core.urlresolvers import reverse
+
+def url_for(name, *args, **kwargs):
+    return reverse(name, args=args, kwargs=kwargs)
+
+def jinja2_helpers(request):
+    return dict(
+        url_for=url_for
+    )

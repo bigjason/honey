@@ -5,6 +5,8 @@ from honey.jinja2support.loaders import (
     Jinja2AppDirLoader
 )
 
+from honey.jinja2support.helpers import jinja2_helpers
+
 from honey.makosupport.loaders import (
     MakoFileSystemLoader,
     MakoAppDirLoader
