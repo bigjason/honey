@@ -2,6 +2,7 @@
 The lookups are used internally by mako to find templates during includes, 
 namespace etc.
 """
+from __future__ import absolute_import
 from os import path
 
 from django.conf import settings

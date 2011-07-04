@@ -1,6 +1,8 @@
 """
 MakoTemplate is a django friendly wrapper for the mako Template objects.
 """
+from __future__ import absolute_import
+
 from mako.template import Template
 
 from honey.utils import context_to_dict

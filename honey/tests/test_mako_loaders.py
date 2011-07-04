@@ -2,7 +2,7 @@ from os import path
 
 from django.test import TestCase
 
-from honey.makosupport.loaders import MakoFileSystemLoader, MakoAppDirLoader
+from honey.mako.loaders import MakoFileSystemLoader, MakoAppDirLoader
 
 class LoaderTester(object):
     def _load_file_name(self, input_path, *path_parts):
