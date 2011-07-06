@@ -2,6 +2,8 @@
 MakoFileSystemLoader and MakoAppDirLoader are user facing template loaders for
 mako templates. 
 """
+from __future__ import absolute_import
+
 from django.template.loaders import app_directories, filesystem
 
 from .lookup import FileSystemTemplateLookup, AppDirectoriesTemplateLookup

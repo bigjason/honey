@@ -2,6 +2,7 @@
 The lookups are used internally by mako to find templates during includes, 
 namespace etc.
 """
+from __future__ import absolute_import
 from os import path
 
 from django.conf import settings
@@ -10,6 +11,7 @@ from django.template.loaders import app_directories
 
 from mako.template import Template
 from mako.lookup import TemplateCollection
+
 
 class DjangoMakoTemplateLookupBase(TemplateCollection):
     def __init__(self, extra_folders=()):

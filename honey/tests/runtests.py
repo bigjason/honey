@@ -15,12 +15,11 @@ if not settings.configured:
             'honey'
         ],
         TEMPLATE_LOADERS=(
-            'honey.template.MakoFileSystemLoader',
-            'honey.template.MakoAppDirLoader',
+            'honey.MakoFileSystemLoader',
+            'honey.MakoAppDirLoader',
         ),
         TEMPLATE_DIRS = (
             path.join(TEST_ROOT, 'templates'),
-            #path.join(TEST_ROOT, 'testapp', 'templates')
         )
     )
 
