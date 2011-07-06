@@ -3,10 +3,10 @@ Jinja2FileSystemLoader and Jinja2AppDirLoader are user facing template loaders f
 jinja2 templates.
 """
 from __future__ import absolute_import
-
 from os import path
 
 from django.template.loaders import app_directories
+from django.template import TemplateDoesNotExist
 from django.template.loader import BaseLoader
 from django.conf import settings
 from jinja2 import FileSystemLoader, Environment
@@ -21,7 +21,6 @@ JINJA2_ENVIRONMENT = {'auto_reload': True}
 JINJA2_ENVIRONMENT.update(getattr(settings, 'JINJA2_ENVIRONMENT', {}))
 
 ## Internal Jinja2 Environment Setup ##
-
 folders = []
 if JINJA2_USE_FILESYSTEM:
     folders += settings.TEMPLATE_DIRS
@@ -45,7 +44,7 @@ class Loader(BaseLoader):
             name = path.join(folder, template_name)
             if path.exists(name):
                 with open(name, 'r') as f:
-                    source = f.read()
+                    source = f.read().decode(settings.FILE_CHARSET)
                 return (source, name)
-            # No template found
+        # No template found
         raise TemplateDoesNotExist(template_name)
