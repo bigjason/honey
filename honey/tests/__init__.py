@@ -1,1 +1,1 @@
-from .test_mako_loaders import *
+from honey.tests.test_mako_loaders import *
