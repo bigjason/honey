@@ -1,6 +1,6 @@
 from __future__ import absolute_import
-import posixpath
 import os
+import posixpath
 from os import path
 
 from django.conf import settings
@@ -11,6 +11,10 @@ from .exceptions import StaticFileNotFoundError
 
 def url_for(name, *args, **kwargs):
     return reverse(name, args=args, kwargs=kwargs)
+
+
+def link(name, text, *args, **kwargs):
+    return '<a href="{0}">{1}</a>'.format(reverse(name, *args, **kwargs), text)
 
 
 def static_url(name):
@@ -45,9 +49,10 @@ def img(name, alt=""):
 
 def jinja2_helpers(request):
     return dict(
-        url_for=url_for,
         request=request,
         settings=settings,
+        url_for=url_for,
+        link=link,
         static_url=static_url,
         javascript=javascript,
         css=css
