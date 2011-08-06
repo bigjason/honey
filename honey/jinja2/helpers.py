@@ -24,7 +24,7 @@ def static_url(name):
             "Could not find the static file '{0}'.".format(file_path or "")
         )
 
-    return u"{0}{1}?b={2}".format(
+    return "{0}{1}?b={2}".format(
         settings.STATIC_URL,
         name,
         int(os.stat(file_path).st_mtime)
