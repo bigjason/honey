@@ -29,7 +29,5 @@ setup(
        'License :: OSI Approved :: Apache Software License'
     ],
     install_requires = [
-        'django>=1.2',
-        'mako'                        
     ]
 )
