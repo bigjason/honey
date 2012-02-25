@@ -2,7 +2,7 @@
 Dead Project, Move Along
 ========================
 
-**I am no longer maintining this project. If it interests you I would be glad to hand it over.**
+**I am no longer maintaining this project. If it interests you I would be glad to hand it over.**
 
 _________________
 
